@@ -36,4 +36,12 @@ public class OreService {
     public OreEntity findOreById(UUID id) {
         return OreRepo.findOreById(id).orElseThrow(() -> new OreNotFoundExeption("Ore by id" + id + "was not found"));
     }
+
+    public void deleteOre(UUID id) throws IllegalAccessException {
+        boolean exists = OreRepo.existsById(id);
+        if(!exists){
+            throw new IllegalAccessException("ore with id " + id + " does not exists");
+        }
+        OreRepo.deleteById(id);
+    }
 }
