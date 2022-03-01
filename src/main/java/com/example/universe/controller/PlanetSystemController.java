@@ -41,9 +41,8 @@ public class PlanetSystemController {
         PlanetSystemEntity updatePlanetSystem = planetSystemService.updatePlanetSystem(planetSystem);
         return new ResponseEntity<>(updatePlanetSystem,HttpStatus.OK);
     }
-    /*@DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deletePlanetSystem(@PathVariable("id")UUID id){
-        planetSystemService.deletPlanetSystem(id);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }*/
+    @DeleteMapping("{id}")
+    public void deletePlanetSystem(@PathVariable("id")UUID id){
+        planetSystemService.deletePlanetSystem(id);
+    }
 }

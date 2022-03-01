@@ -34,7 +34,8 @@ public class PlanetSystemService {
     public PlanetSystemEntity findPlanetSystemById(UUID id){
         return planetSystemRepo.findPlanetSystemById(id).orElseThrow(() -> new PlanetSystemNotFoundExeption("PlanetSystem by id"+id+"was not found"));
     }
-    /*public void deletePlanetSystem(UUID id){
-        planetSystemRepo.deletePlanetSystemByID(id);
-    }*/
+
+    public void deletePlanetSystem(UUID id){
+        planetSystemRepo.deleteById(id);
+    }
 }
