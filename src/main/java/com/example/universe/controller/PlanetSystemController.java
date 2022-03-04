@@ -1,6 +1,7 @@
 package com.example.universe.controller;
 
 import com.example.universe.entity.PlanetSystemEntity;
+import com.example.universe.entity.SatelliteEntity;
 import com.example.universe.model.PlanetSystem;
 import com.example.universe.service.PlanetSystemService;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,13 @@ public class PlanetSystemController {
         System.out.println(id);
         System.out.println(UUID.fromString(id));
         PlanetSystemEntity planetSystem = planetSystemService.findPlanetSystemById(UUID.fromString(id));
+        return new ResponseEntity<>(planetSystem,HttpStatus.OK);
+    }
+    @GetMapping("/find/{name}")
+    public ResponseEntity<PlanetSystemEntity> getPlanetSystemByName(@PathVariable("name")String name){
+        //System.out.println(name);
+        //System.out.println(UUID.fromString(name));
+        PlanetSystemEntity planetSystem = planetSystemService.findPlanetSystemByName(name);
         return new ResponseEntity<>(planetSystem,HttpStatus.OK);
     }
     @PostMapping("/add")

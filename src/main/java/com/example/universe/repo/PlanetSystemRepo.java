@@ -9,4 +9,5 @@ public interface PlanetSystemRepo extends JpaRepository<PlanetSystemEntity,UUID>
 
     Optional<PlanetSystemEntity> findPlanetSystemById(UUID id);
 
+    Optional<Object> findPlanetSystemByName(String name);
 }

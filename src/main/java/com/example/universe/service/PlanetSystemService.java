@@ -32,10 +32,14 @@ public class PlanetSystemService {
         return planetSystemRepo.save(planetSystem);
     }
     public PlanetSystemEntity findPlanetSystemById(UUID id){
-        return planetSystemRepo.findPlanetSystemById(id).orElseThrow(() -> new PlanetSystemNotFoundExeption("PlanetSystem by id"+id+"was not found"));
+        return planetSystemRepo.findPlanetSystemById(id).orElseThrow(() -> new PlanetSystemNotFoundExeption("PlanetSystem by id "+id+" was not found"));
     }
 
     public void deletePlanetSystem(UUID id){
         planetSystemRepo.deleteById(id);
+    }
+
+    public PlanetSystemEntity findPlanetSystemByName(String name) {
+        return (PlanetSystemEntity) planetSystemRepo.findPlanetSystemByName(name).orElseThrow(() -> new PlanetSystemNotFoundExeption("PlanetSystem by name "+name+" was not found"));
     }
 }
