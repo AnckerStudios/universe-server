@@ -6,4 +6,5 @@ import java.util.UUID;
 
 public interface SatelliteRepo extends JpaRepository<SatelliteEntity, UUID> {
     Optional<SatelliteEntity> findSatelliteById(UUID id);
+    Optional<SatelliteEntity> findSatelliteByName(String name);
 }

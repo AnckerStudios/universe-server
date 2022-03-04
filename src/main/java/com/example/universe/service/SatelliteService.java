@@ -31,4 +31,7 @@ public class SatelliteService {
     public SatelliteEntity findSatelliteById(UUID id){
         return satelliteRepo.findSatelliteById(id).orElseThrow(() -> new SatelliteNotFoundExeption("Satellite by id"+id+"was not found"));
     }
+    public SatelliteEntity findSatelliteByName(String name) {
+        return satelliteRepo.findSatelliteByName(name).orElseThrow(() -> new SatelliteNotFoundExeption("Satellite by name"+ name +"was not found"));
+    }
 }

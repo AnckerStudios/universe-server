@@ -25,9 +25,14 @@ public class SatelliteController {
         return new ResponseEntity<>(satellite, HttpStatus.OK);
     }
     @GetMapping("/find/{id}")
-    public ResponseEntity<SatelliteEntity> getPlanetSystemById(@PathVariable("id") UUID id){
+    public ResponseEntity<SatelliteEntity> getSatelliteById(@PathVariable("id") UUID id){
         SatelliteEntity planetSystem = satelliteService.findSatelliteById(id);
         return new ResponseEntity<>(planetSystem,HttpStatus.OK);
+    }
+    @GetMapping("/find/{name}")
+    public ResponseEntity<SatelliteEntity> getSatelliteByName(@PathVariable("name") String name){
+        SatelliteEntity satellite = satelliteService.findSatelliteByName(name);
+        return new ResponseEntity<>(satellite, HttpStatus.OK);
     }
     @PostMapping("/add")
     public ResponseEntity<SatelliteEntity> addSatellite(@RequestBody SatelliteEntity satellite){
@@ -39,4 +44,6 @@ public class SatelliteController {
         SatelliteEntity updateSatellite = satelliteService.updateSatellite(satellite);
         return new ResponseEntity<>(updateSatellite, HttpStatus.OK);
     }
+
+
 }
