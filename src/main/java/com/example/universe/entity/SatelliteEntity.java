@@ -1,12 +1,21 @@
 package com.example.universe.entity;
 
+import com.example.universe.model.Creature;
+import com.example.universe.model.Ore;
+import com.example.universe.model.Satellite;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "spaceobject")
-public class SatelliteEntity {
+public class SatelliteEntity implements Serializable {
     @Id
     @Column(name = "obj_uuid")
     private UUID id;
@@ -21,7 +30,17 @@ public class SatelliteEntity {
 
     @Column(name = "radius")
     private int radius;
-    @ManyToOne
+
+    public PlanetSystemEntity getPlanetSystem() {
+        return planetSystem;
+    }
+
+    public void setPlanetSystem(PlanetSystemEntity planetSystem) {
+        this.planetSystem = planetSystem;
+    }
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)//fetch = FetchType.LAZY,cascade = CascadeType.ALL
     @JoinColumn(name = "fk_sys_uuid")
     private PlanetSystemEntity planetSystem;
 
@@ -33,7 +52,7 @@ public class SatelliteEntity {
         this.ores = ores;
     }
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name="object_ore",
             joinColumns=@JoinColumn (name="fk2_obj_uuid"),
             inverseJoinColumns=@JoinColumn(name="fk2_ore_uuid"))
@@ -109,6 +128,18 @@ public class SatelliteEntity {
 
     public void setFk_obj_uuid(UUID fk_obj_uuid) {
         this.fk_obj_uuid = fk_obj_uuid;
+    }
+
+    public static SatelliteEntity toEntity(Satellite model){
+        SatelliteEntity satellite = new SatelliteEntity();
+        satellite.setId(model.getId());
+        satellite.setName(model.getName());
+        satellite.setDiscriminator(model.getDiscriminator());
+        satellite.setClimate(model.getClimate());
+        satellite.setRadius(model.getRadius());
+        satellite.setOres(model.getOres().stream().map(OreEntity::toEntity).collect(Collectors.toList()));
+        satellite.setCreatures(model.getCreatures().stream().map(CreatureEntity::toEntity).collect(Collectors.toList()));
+        return satellite;
     }
 }
 

@@ -8,7 +8,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class Satellite {
-    private UUID id;
+    private String id;
     private String name;
     private String discriminator;
     private String climate;
@@ -44,11 +44,11 @@ public class Satellite {
     }
 
     public UUID getId() {
-        return id;
+        return UUID.fromString(this.id);
     }
 
     public void setId(UUID id) {
-        this.id = id;
+        this.id = id.toString();
     }
 
     public String getName() {

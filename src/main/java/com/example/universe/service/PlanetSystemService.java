@@ -1,6 +1,7 @@
 package com.example.universe.service;
 
 
+import com.example.universe.entity.SatelliteEntity;
 import com.example.universe.exeption.PlanetSystemNotFoundExeption;
 import com.example.universe.entity.PlanetSystemEntity;
 import com.example.universe.model.PlanetSystem;
@@ -8,6 +9,8 @@ import com.example.universe.repo.PlanetSystemRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -15,14 +18,21 @@ import java.util.stream.Collectors;
 @Service
 public class PlanetSystemService {
     private final PlanetSystemRepo planetSystemRepo;
-
+    private EntityManager entityManager;
     @Autowired
     public PlanetSystemService(PlanetSystemRepo planetSystemRepo){
         this.planetSystemRepo = planetSystemRepo;
     }
 
     public PlanetSystemEntity addPlanetSystem(PlanetSystemEntity planetSystem){
-        planetSystem.setId(UUID.randomUUID());
+        //planetSystem.setId(UUID.randomUUID());
+        for(SatelliteEntity s : planetSystem.getSatellites()) {
+            s.setPlanetSystem(planetSystem);
+            //for(OreEntity o : s.getOres())
+            //    o.
+        }
+        for(SatelliteEntity s : planetSystem.getSatellites())
+            System.out.println(s.getPlanetSystem().getName());
         return planetSystemRepo.save(planetSystem);
     }
     public List<PlanetSystem> findAllPlanetSystem(){
@@ -34,7 +44,15 @@ public class PlanetSystemService {
     public PlanetSystemEntity findPlanetSystemById(UUID id){
         return planetSystemRepo.findPlanetSystemById(id).orElseThrow(() -> new PlanetSystemNotFoundExeption("PlanetSystem by id"+id+"was not found"));
     }
-    /*public void deletePlanetSystem(UUID id){
-        planetSystemRepo.deletePlanetSystemByID(id);
-    }*/
+
+    public PlanetSystemEntity findPlanetSystemByName(String name) {
+        return planetSystemRepo.findPlanetSystemByName(name).orElseThrow(() -> new PlanetSystemNotFoundExeption("PlanetSystem by name"+name+"was not found"));
+    }
+    public void deletePlanetSystem(UUID id){
+        planetSystemRepo.deleteById(id);
+    }
+
+    public List<PlanetSystem> findPlanetSystemByCoords(int coordX, int coordY, int range) {
+        return planetSystemRepo.findPlanetSystemByCoords(coordX-range,coordX+range,coordY-range,coordY+range).stream().map(s -> PlanetSystem.toModel(s)).collect(Collectors.toList());
+    }
 }

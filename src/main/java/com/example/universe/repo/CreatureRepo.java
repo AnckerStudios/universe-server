@@ -5,5 +5,5 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface CreatureRepo extends JpaRepository <CreatureEntity,UUID>{
-    Optional<CreatureEntity> findOreById(UUID id);
+    Optional<CreatureEntity> findCreatureById(UUID id);
 }

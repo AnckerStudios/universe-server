@@ -20,20 +20,28 @@ public class CreatureService {
         this.CreatureRepo = CreatureRepo;
     }
 
-    public CreatureEntity addOre(CreatureEntity Creature) {
+    public CreatureEntity addCreature(CreatureEntity Creature) {
         Creature.setId(UUID.randomUUID());
         return CreatureRepo.save(Creature);
     }
 
-    public List<Creature> findAllOre() {
+    public List<Creature> findAllCreature() {
         return CreatureRepo.findAll().stream().map(s -> Creature.toModel(s)).collect(Collectors.toList());
     }
 
-    public CreatureEntity updateOre(CreatureEntity ore) {
-        return CreatureRepo.save(ore);
+    public CreatureEntity updateCreature(CreatureEntity creature) {
+        return CreatureRepo.save(creature);
     }
 
-    public CreatureEntity findOreById(UUID id) {
-        return CreatureRepo.findOreById(id).orElseThrow(() -> new CreatureNotFoundExeption("Ore by id" + id + "was not found"));
+    public CreatureEntity findCreatureById(UUID id) {
+        return CreatureRepo.findCreatureById(id).orElseThrow(() -> new CreatureNotFoundExeption("Ore by id" + id + "was not found"));
+    }
+
+    public void deleteCreature(UUID id) throws IllegalAccessException {
+        boolean exists = CreatureRepo.existsById(id);
+        if(!exists){
+            throw new IllegalAccessException("creature with id " + id + " does not exists");
+        }
+        CreatureRepo.deleteById(id);
     }
 }

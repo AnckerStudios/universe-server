@@ -3,7 +3,7 @@ import com.example.universe.entity.CreatureEntity;
 import java.util.UUID;
 
 public class Creature {
-    private UUID id;
+    private String id;
     private String name;
 
     public static Creature toModel (CreatureEntity enity){
@@ -16,10 +16,10 @@ public class Creature {
     public Creature() {
     }
     public UUID getId() {
-        return id;
+        return UUID.fromString(this.id);
     }
     public void setId(UUID id) {
-        this.id = id;
+        this.id = id.toString();
     }
     public String getName() {
         return name;

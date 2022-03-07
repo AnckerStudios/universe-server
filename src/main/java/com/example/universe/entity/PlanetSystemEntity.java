@@ -1,9 +1,13 @@
 package com.example.universe.entity;
 
+import com.example.universe.model.PlanetSystem;
+import com.example.universe.model.Satellite;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "planetsystem")
@@ -13,18 +17,20 @@ public class PlanetSystemEntity implements Serializable {
     private UUID id;
     @Column(name = "sys_name")
     private String name;
-    @Column(name = "coords")
-    private String coords;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "planetSystem")
+    @Column(name = "ycoord")
+    private Integer YCoord;
+    @Column(name = "xcoord")
+    private Integer XCoord;
+    @OneToMany(mappedBy = "planetSystem", fetch = FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true) //fetch = FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true
     private List<SatelliteEntity> satellites;
 
-    public String getCoords() {
-        return coords;
+    public int getXCoord() {
+        return XCoord;
     }
 
-    public void setCoords(String coords) {
-        this.coords = coords;
+    public void setXCoord(int xCoord) {
+        this.XCoord = xCoord;
     }
 
     public void setSatellites(List<SatelliteEntity> satellites) {
@@ -42,8 +48,14 @@ public class PlanetSystemEntity implements Serializable {
         this.id = UUID.randomUUID();
         this.name = name;
     }
+    public PlanetSystemEntity( PlanetSystem ps) {
+        this.id = ps.getId();
+        this.name = ps.getName();
+        //this.satellites = ps.getSatellites();
 
-    public void setId(UUID Id){
+    }
+
+    public void setId(UUID id){
         this.id = id;
     }
     public UUID getId() {
@@ -55,5 +67,22 @@ public class PlanetSystemEntity implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getYCoord() {
+        return YCoord;
+    }
+
+    public void setYCoord(Integer YCoord) {
+        this.YCoord = YCoord;
+    }
+    public static PlanetSystemEntity toEntity(PlanetSystem model){
+        PlanetSystemEntity planetSystem = new PlanetSystemEntity();
+        planetSystem.setId(model.getId());
+        planetSystem.setName(model.getName());
+        planetSystem.setSatellites(model.getSatellites().stream().map(SatelliteEntity::toEntity).collect(Collectors.toList()));
+        planetSystem.setXCoord(model.getXCoord());
+        planetSystem.setYCoord(model.getYCoord());
+        return planetSystem;
     }
 }

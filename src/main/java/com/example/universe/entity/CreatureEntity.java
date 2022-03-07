@@ -1,5 +1,7 @@
 package com.example.universe.entity;
 
+import com.example.universe.model.Creature;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
@@ -41,6 +43,13 @@ public class CreatureEntity {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public static CreatureEntity toEntity (Creature model){
+        CreatureEntity creature = new CreatureEntity();
+        creature.setId(model.getId());
+        creature.setName(model.getName());
+        return creature;
     }
 }
 

@@ -24,16 +24,21 @@ public class OreService {
         ore.setId(UUID.randomUUID());
         return OreRepo.save(ore);
     }
-
     public List<Ore> findAllOre() {
         return OreRepo.findAll().stream().map(s -> Ore.toModel(s)).collect(Collectors.toList());
     }
-
     public OreEntity updateOre(OreEntity ore) {
         return OreRepo.save(ore);
     }
 
     public OreEntity findOreById(UUID id) {
         return OreRepo.findOreById(id).orElseThrow(() -> new OreNotFoundExeption("Ore by id" + id + "was not found"));
+    }
+    public void deleteOre(UUID id) throws IllegalAccessException {
+        boolean exists = OreRepo.existsById(id);
+        if(!exists){
+            throw new IllegalAccessException("ore with id " + id + " does not exists");
+        }
+        OreRepo.deleteById(id);
     }
 }

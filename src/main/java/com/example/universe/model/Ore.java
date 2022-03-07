@@ -3,7 +3,7 @@ import com.example.universe.entity.OreEntity;
 
 import java.util.UUID;
 public class Ore {
-    private UUID id;
+    private String id;
     private String name;
 
     public static Ore toModel (OreEntity enity){
@@ -16,10 +16,10 @@ public class Ore {
     public Ore(){
     }
     public UUID getId() {
-        return id;
+        return UUID.fromString(this.id);
     }
     public void setId(UUID id) {
-        this.id = id;
+        this.id = id.toString();
     }
     public String getName() {
         return name;

@@ -1,4 +1,6 @@
 package com.example.universe.entity;
+import com.example.universe.model.Ore;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
@@ -31,5 +33,12 @@ public class OreEntity {
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    public static OreEntity toEntity (Ore model){
+        OreEntity ore = new OreEntity();
+        ore.setId(model.getId());
+        ore.setName(model.getName());
+        return ore;
     }
 }

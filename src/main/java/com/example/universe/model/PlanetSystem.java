@@ -8,26 +8,29 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class PlanetSystem {
-    private UUID id;
+    private String id;
     private String name;
     private List<Satellite> satellites;
-    private String coords;
+    private Integer YCoord;
+    private Integer XCoord;
 
     public static PlanetSystem toModel(PlanetSystemEntity entity){
         PlanetSystem planetSystem = new PlanetSystem();
         planetSystem.setId(entity.getId());
         planetSystem.setName(entity.getName());
         planetSystem.setSatellites(entity.getSatellites().stream().map(Satellite::toModel).collect(Collectors.toList()));
-        planetSystem.setCoords(entity.getCoords());
+        planetSystem.setXCoord(entity.getXCoord());
+        planetSystem.setYCoord(entity.getYCoord());
         return planetSystem;
     }
 
     public UUID getId() {
-        return this.id;
+        System.out.println("id = "+ this.id +"or "+UUID.fromString(this.id));
+        return UUID.fromString(this.id);
     }
 
     public void setId(UUID id) {
-        this.id = id;
+        this.id = id.toString();
     }
 
     public String getName() {
@@ -49,11 +52,19 @@ public class PlanetSystem {
     public PlanetSystem() {
     }
 
-    public String getCoords() {
-        return coords;
+    public int getXCoord() {
+        return XCoord;
     }
 
-    public void setCoords(String coords) {
-        this.coords = coords;
+    public void setXCoord(int xCoord) {
+        this.XCoord = xCoord;
+    }
+
+    public Integer getYCoord() {
+        return YCoord;
+    }
+
+    public void setYCoord(Integer YCoord) {
+        this.YCoord = YCoord;
     }
 }
