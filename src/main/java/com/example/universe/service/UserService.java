@@ -31,7 +31,7 @@ public class UserService implements UserDetailsService {
     private static abstract class UserData
     {
         private static final String ROLE_USER = "ROLE_USER";
-        private static final String ROLE_USER_ID = "0ada0e40-c34b-48ce-9ddc-be67eec99eed";
+        private static final String ROLE_USER_ID = "641b143c-46b9-4673-a8e2-33659819db2b";
     }
 
     @PersistenceContext
