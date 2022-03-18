@@ -1,5 +1,7 @@
 package com.example.universe.service;
 
+
+
 import com.example.universe.entity.Role;
 import com.example.universe.entity.User;
 import com.example.universe.repo.RoleRepo;
@@ -20,6 +22,7 @@ import java.util.UUID;
 
 @Service
 public class UserService implements UserDetailsService {
+
     private static abstract class ExceptionMessage
     {
         private static final String USER_NOT_FOUND = "User not found";
@@ -34,54 +37,53 @@ public class UserService implements UserDetailsService {
     @PersistenceContext
     private EntityManager em;
     @Autowired
-    UserRepo userRepo;
+    UserRepo userRepository;
     @Autowired
-    RoleRepo roleRepo;
+    RoleRepo roleRepository;
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepo.findByUsername(username);
+        User user = userRepository.findByUsername(username);
 
         if (user == null) {
-            throw new UsernameNotFoundException("User not found");
+            throw new UsernameNotFoundException(ExceptionMessage.USER_NOT_FOUND);
         }
 
         return user;
     }
 
-    public User findUserById(Long userId) {
-        Optional<User> userFromDb = userRepo.findById(userId);
+    public User findUserById(UUID userId) {
+        Optional<User> userFromDb = userRepository.findById(userId);
         return userFromDb.orElse(new User());
     }
 
     public List<User> allUsers() {
-        return userRepo.findAll();
+        return userRepository.findAll();
     }
 
     public boolean saveUser(User user) {
-        User userFromDB = userRepo.findByUsername(user.getUsername());
+        User userFromDB = userRepository.findByUsername(user.getUsername());
 
         if (userFromDB != null) {
             return false;
         }
-
-        user.setRoles(Collections.singleton(new Role(UUID.fromString(UserData.ROLE_USER_ID), UserData.ROLE_USER));
+        user.setRoles(Collections.singleton(new Role(UUID.fromString(UserData.ROLE_USER_ID), UserData.ROLE_USER)));
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userRepo.save(user);
+        userRepository.save(user);
         return true;
     }
 
-    public boolean deleteUser(Long userId) {
-        if (userRepo.findById(userId).isPresent()) {
-            userRepo.deleteById(userId);
+    public boolean deleteUser(UUID userId) {
+        if (userRepository.findById(userId).isPresent()) {
+            userRepository.deleteById(userId);
             return true;
         }
         return false;
     }
 
-    public List<User> usergtList(Long idMin) {
+    public List<User> usergtList(UUID idMin) {
         return em.createQuery("SELECT u FROM User u WHERE u.id > :paramId", User.class)
                 .setParameter("paramId", idMin).getResultList();
     }

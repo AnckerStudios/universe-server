@@ -1,27 +1,33 @@
 package com.example.universe.entity;
 
-import org.hibernate.annotations.Table;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
+import org.hibernate.annotations.Type;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import javax.management.relation.Role;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Set;
 import java.util.UUID;
 
+
 @Entity
 @Table(name = "user")
 public class User implements UserDetails {
+
+    private static abstract class TypeAnnotation{
+        private static final String UUID_CHAR_TYPE = "org.hibernate.type.UUIDCharType";
+    }
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Type(type = TypeAnnotation.UUID_CHAR_TYPE)
     private UUID id;
+
     private String username;
+
     private String password;
+
     @Transient
     private String passwordConfirm;
+
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
@@ -95,5 +101,4 @@ public class User implements UserDetails {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
-}
 }
