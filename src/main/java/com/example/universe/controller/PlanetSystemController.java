@@ -25,14 +25,14 @@ public class PlanetSystemController {
         List<PlanetSystem> planetSystems = planetSystemService.findAllPlanetSystem();
         return new ResponseEntity<>(planetSystems, HttpStatus.OK);
     }
-    @GetMapping("/find/{id}")
+    @GetMapping("/findById/{id}")
     public ResponseEntity<PlanetSystemEntity> getPlanetSystemById(@PathVariable("id")String id){
         System.out.println(id);
         System.out.println(UUID.fromString(id));
         PlanetSystemEntity planetSystem = planetSystemService.findPlanetSystemById(UUID.fromString(id));
         return new ResponseEntity<>(planetSystem,HttpStatus.OK);
     }
-    @GetMapping("/find/{name}")
+    @GetMapping("/findByName/{name}")
     public ResponseEntity<PlanetSystemEntity> getPlanetSystemByName(@PathVariable("name")String name){
         //System.out.println(name);
         //System.out.println(UUID.fromString(name));

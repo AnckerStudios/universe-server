@@ -24,12 +24,12 @@ public class SatelliteController {
         List<Satellite> satellite = satelliteService.findAllSatellite();
         return new ResponseEntity<>(satellite, HttpStatus.OK);
     }
-    @GetMapping("/find/{id}")
+    @GetMapping("/findById/{id}")
     public ResponseEntity<SatelliteEntity> getSatelliteById(@PathVariable("id") UUID id){
         SatelliteEntity planetSystem = satelliteService.findSatelliteById(id);
         return new ResponseEntity<>(planetSystem,HttpStatus.OK);
     }
-    @GetMapping("/find/{name}")
+    @GetMapping("/findByName/{name}")
     public ResponseEntity<SatelliteEntity> getSatelliteByName(@PathVariable("name") String name){
         SatelliteEntity satellite = satelliteService.findSatelliteByName(name);
         return new ResponseEntity<>(satellite, HttpStatus.OK);
