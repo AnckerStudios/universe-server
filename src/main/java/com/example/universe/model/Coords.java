@@ -34,4 +34,13 @@ public class Coords {
     private int coordX;
     private int coordY;
     private int range;
+
+    @Override
+    public String toString() {
+        return "Coords{" +
+                "coordX=" + coordX +
+                ", coordY=" + coordY +
+                ", range=" + range +
+                '}';
+    }
 }

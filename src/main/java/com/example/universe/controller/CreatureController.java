@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(path = "creatures")
+@RequestMapping(path = "/creatures")
 public class CreatureController {
     private final CreatureService creatureService;
 

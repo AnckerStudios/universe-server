@@ -77,6 +77,7 @@ public class PlanetSystemEntity implements Serializable {
         this.YCoord = YCoord;
     }
     public static PlanetSystemEntity toEntity(PlanetSystem model){
+        System.out.println("model = "+model);
         PlanetSystemEntity planetSystem = new PlanetSystemEntity();
         planetSystem.setId(model.getId());
         planetSystem.setName(model.getName());
@@ -85,4 +86,35 @@ public class PlanetSystemEntity implements Serializable {
         planetSystem.setYCoord(model.getYCoord());
         return planetSystem;
     }
+    public static PlanetSystemEntity toEntityLow(PlanetSystem model){
+        System.out.println("model = "+model);
+        PlanetSystemEntity planetSystem = new PlanetSystemEntity();
+        planetSystem.setId(model.getId());
+        planetSystem.setName(model.getName());
+        //planetSystem.setSatellites(model.getSatellites().stream().map(SatelliteEntity::toEntity).collect(Collectors.toList()));
+        planetSystem.setXCoord(model.getXCoord());
+        planetSystem.setYCoord(model.getYCoord());
+        return planetSystem;
+    }
+    public static PlanetSystemEntity toEntityHigh(PlanetSystem model){
+        System.out.println("model = "+model);
+        PlanetSystemEntity planetSystem = new PlanetSystemEntity();
+        planetSystem.setId(model.getId());
+        planetSystem.setName(model.getName());
+        planetSystem.setSatellites(model.getSatellites().stream().map(SatelliteEntity::toEntityHigh).collect(Collectors.toList()));
+        planetSystem.setXCoord(model.getXCoord());
+        planetSystem.setYCoord(model.getYCoord());
+        return planetSystem;
+    }
+
+    /*@Override
+    public String toString() {
+        return "PlanetSystemEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", YCoord=" + YCoord +
+                ", XCoord=" + XCoord +
+                ", satellites=" + satellites +
+                '}';
+    }*/
 }

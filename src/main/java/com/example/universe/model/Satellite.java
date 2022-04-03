@@ -13,20 +13,20 @@ public class Satellite {
     private String discriminator;
     private String climate;
     private int radius;
-    private List<Ore> ores;
+    private PlanetSystem planetSystem;
+    private List<ObjectOre> objectOre;
+
+    public List<Coords> getListSt() {
+        return listSt;
+    }
+
+    public void setListSt(List<Coords> listSt) {
+        this.listSt = listSt;
+    }
+
+    private List<Coords> listSt;
     private List<Creature> creatures;
 
-    public static Satellite toModel(SatelliteEntity entity){
-        Satellite satellite = new Satellite();
-        satellite.setId(entity.getId());
-        satellite.setName(entity.getName());
-        satellite.setDiscriminator(entity.getDiscriminator());
-        satellite.setClimate(entity.getClimate());
-        satellite.setRadius(entity.getRadius());
-        satellite.setOres(entity.getOres().stream().map(Ore::toModel).collect(Collectors.toList()));
-        satellite.setCreatures(entity.getCreatures().stream().map(Creature::toModel).collect(Collectors.toList()));
-        return satellite;
-    }
     public List<Creature> getCreatures() {
         return creatures;
     }
@@ -35,12 +35,12 @@ public class Satellite {
         this.creatures = creatures;
     }
 
-    public List<Ore> getOres() {
-        return ores;
+    public List<ObjectOre> getObjectOre() {
+        return objectOre;
     }
 
-    public void setOres(List<Ore> ores) {
-        this.ores = ores;
+    public void setObjectOre(List<ObjectOre> ores) {
+        this.objectOre = ores;
     }
 
     public UUID getId() {
@@ -78,11 +78,54 @@ public class Satellite {
     public Satellite() {
     }
 
+    public PlanetSystem getPlanetSystem() {
+        return planetSystem;
+    }
+
+    public void setPlanetSystem(PlanetSystem planetSystem) {
+        this.planetSystem = planetSystem;
+    }
+
     public int getRadius() {
         return radius;
     }
 
     public void setRadius(int radius) {
         this.radius = radius;
+    }
+    public static Satellite toModel(SatelliteEntity entity){
+        Satellite satellite = new Satellite();
+        satellite.setId(entity.getId());
+        satellite.setName(entity.getName());
+        satellite.setDiscriminator(entity.getDiscriminator());
+        satellite.setClimate(entity.getClimate());
+        satellite.setRadius(entity.getRadius());
+        satellite.setObjectOre(entity.getObjectOre().stream().map(ObjectOre::toModel).collect(Collectors.toList()));
+        satellite.setCreatures(entity.getCreatures().stream().map(Creature::toModel).collect(Collectors.toList()));
+        //satellite.setPlanetSystem(PlanetSystem.toModel(entity.getPlanetSystem()));
+        return satellite;
+    }
+    public static Satellite toModelLow(SatelliteEntity entity){
+        Satellite satellite = new Satellite();
+        satellite.setId(entity.getId());
+        satellite.setName(entity.getName());
+        satellite.setDiscriminator(entity.getDiscriminator());
+        satellite.setClimate(entity.getClimate());
+        satellite.setRadius(entity.getRadius());
+        //satellite.setPlanetSystem(PlanetSystem.toModel(entity.getPlanetSystem()));
+        return satellite;
+    }
+    @Override
+    public String toString() {
+        return "Satellite{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", discriminator='" + discriminator + '\'' +
+                ", climate='" + climate + '\'' +
+                ", radius=" + radius +
+                ", planetSystem=" + planetSystem +
+                ", ores=" + objectOre +
+                ", creatures=" + creatures +
+                '}';
     }
 }

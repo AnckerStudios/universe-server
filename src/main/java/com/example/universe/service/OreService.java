@@ -1,5 +1,6 @@
 package com.example.universe.service;
 
+import com.example.universe.entity.ObjectOreEntity;
 import com.example.universe.exeption.OreNotFoundExeption;
 import com.example.universe.entity.OreEntity;
 import com.example.universe.model.Ore;
@@ -20,12 +21,12 @@ public class OreService {
         this.OreRepo = OreRepo;
     }
 
-    public OreEntity addOre(OreEntity ore) {
-        ore.setId(UUID.randomUUID());
+    public OreEntity addOre(OreEntity ore) {//OreEntity ore
+
         return OreRepo.save(ore);
     }
-    public List<Ore> findAllOre() {
-        return OreRepo.findAll().stream().map(s -> Ore.toModel(s)).collect(Collectors.toList());
+    public List<OreEntity> findAllOre() {
+        return OreRepo.findAll();//.stream().map(s -> Ore.toModel(s.getObjectOre())).collect(Collectors.toList());
     }
     public OreEntity updateOre(OreEntity ore) {
         return OreRepo.save(ore);

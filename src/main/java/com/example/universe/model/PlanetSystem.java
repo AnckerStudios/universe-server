@@ -14,18 +14,8 @@ public class PlanetSystem {
     private Integer YCoord;
     private Integer XCoord;
 
-    public static PlanetSystem toModel(PlanetSystemEntity entity){
-        PlanetSystem planetSystem = new PlanetSystem();
-        planetSystem.setId(entity.getId());
-        planetSystem.setName(entity.getName());
-        planetSystem.setSatellites(entity.getSatellites().stream().map(Satellite::toModel).collect(Collectors.toList()));
-        planetSystem.setXCoord(entity.getXCoord());
-        planetSystem.setYCoord(entity.getYCoord());
-        return planetSystem;
-    }
-
     public UUID getId() {
-        System.out.println("id = "+ this.id +"or "+UUID.fromString(this.id));
+        System.out.println("id = "+ this.id +" or "+UUID.fromString(this.id));
         return UUID.fromString(this.id);
     }
 
@@ -66,5 +56,25 @@ public class PlanetSystem {
 
     public void setYCoord(Integer YCoord) {
         this.YCoord = YCoord;
+    }
+
+    @Override
+    public String toString() {
+        return "PlanetSystem{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", satellites=" + satellites +
+                ", YCoord=" + YCoord +
+                ", XCoord=" + XCoord +
+                '}';
+    }
+    public static PlanetSystem toModel(PlanetSystemEntity entity){
+        PlanetSystem planetSystem = new PlanetSystem();
+        planetSystem.setId(entity.getId());
+        planetSystem.setName(entity.getName());
+        planetSystem.setSatellites(entity.getSatellites().stream().map(Satellite::toModel).collect(Collectors.toList()));
+        planetSystem.setXCoord(entity.getXCoord());
+        planetSystem.setYCoord(entity.getYCoord());
+        return planetSystem;
     }
 }

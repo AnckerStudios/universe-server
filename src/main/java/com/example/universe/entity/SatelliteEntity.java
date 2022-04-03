@@ -40,31 +40,12 @@ public class SatelliteEntity implements Serializable {
     }
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)//fetch = FetchType.LAZY,cascade = CascadeType.ALL
+    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.REFRESH})//fetch = FetchType.LAZY,cascade = CascadeType.ALL
     @JoinColumn(name = "fk_sys_uuid")
     private PlanetSystemEntity planetSystem;
 
-    public List<OreEntity> getOres() {
-        return ores;
-    }
-
-    public void setOres(List<OreEntity> ores) {
-        this.ores = ores;
-    }
-
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name="object_ore",
-            joinColumns=@JoinColumn (name="fk2_obj_uuid"),
-            inverseJoinColumns=@JoinColumn(name="fk2_ore_uuid"))
-    private List<OreEntity> ores;
-
-    public List<CreatureEntity> getCreatures() {
-        return creatures;
-    }
-
-    public void setCreatures(List<CreatureEntity> creatures) {
-        this.creatures = creatures;
-    }
+    @OneToMany(mappedBy = "satellite", fetch = FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ObjectOreEntity> objectOre;
 
     @ManyToMany
     @JoinTable(name="object_creature",
@@ -78,6 +59,25 @@ public class SatelliteEntity implements Serializable {
         this.discriminator = discriminator;
         this.climate = climate;
         this.fk_obj_uuid = fk_obj_uuid;
+    }
+    public List<CreatureEntity> getCreatures() {
+        return creatures;
+    }
+
+    public void setCreatures(List<CreatureEntity> creatures) {
+        this.creatures = creatures;
+    }
+
+    public List<ObjectOreEntity> getObjectOre() {
+        return objectOre;
+    }
+
+    public void setObjectOre(List<ObjectOreEntity> objectOre) {
+        this.objectOre = objectOre;
+    }
+
+    public SatelliteEntity(UUID id) {
+        this.id = id;
     }
 
     public SatelliteEntity() {
@@ -131,15 +131,58 @@ public class SatelliteEntity implements Serializable {
     }
 
     public static SatelliteEntity toEntity(Satellite model){
+        System.out.println("satEnt = "+ model);
         SatelliteEntity satellite = new SatelliteEntity();
         satellite.setId(model.getId());
         satellite.setName(model.getName());
         satellite.setDiscriminator(model.getDiscriminator());
         satellite.setClimate(model.getClimate());
         satellite.setRadius(model.getRadius());
-        satellite.setOres(model.getOres().stream().map(OreEntity::toEntity).collect(Collectors.toList()));
+        satellite.setPlanetSystem(PlanetSystemEntity.toEntity(model.getPlanetSystem()));
+        satellite.setObjectOre(model.getObjectOre().stream().map(ObjectOreEntity::toEntity).collect(Collectors.toList()));
+
         satellite.setCreatures(model.getCreatures().stream().map(CreatureEntity::toEntity).collect(Collectors.toList()));
         return satellite;
     }
+    public static SatelliteEntity toEntityHigh(Satellite model){
+        System.out.println("satEnt = "+ model);
+        SatelliteEntity satellite = new SatelliteEntity();
+        satellite.setId(model.getId());
+        satellite.setName(model.getName());
+        satellite.setDiscriminator(model.getDiscriminator());
+        satellite.setClimate(model.getClimate());
+        satellite.setRadius(model.getRadius());
+        satellite.setPlanetSystem(PlanetSystemEntity.toEntityLow(model.getPlanetSystem()));
+        satellite.setObjectOre(model.getObjectOre().stream().map(ObjectOreEntity::toEntityHigh).collect(Collectors.toList()));
+
+        satellite.setCreatures(model.getCreatures().stream().map(CreatureEntity::toEntity).collect(Collectors.toList()));
+        return satellite;
+    }
+    public static SatelliteEntity toEntityLow(Satellite model){
+        System.out.println("satEnt = "+ model);
+        SatelliteEntity satellite = new SatelliteEntity();
+        satellite.setId(model.getId());
+        satellite.setName(model.getName());
+        satellite.setDiscriminator(model.getDiscriminator());
+        satellite.setClimate(model.getClimate());
+        satellite.setRadius(model.getRadius());
+        //satellite.setPlanetSystem(PlanetSystemEntity.toEntityLow(model.getPlanetSystem()));
+        return satellite;
+    }
+
+   /* @Override
+    public String toString() {
+        return "SatelliteEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", discriminator='" + discriminator + '\'' +
+                ", climate='" + climate + '\'' +
+                ", fk_obj_uuid=" + fk_obj_uuid +
+                ", radius=" + radius +
+                ", planetSystem=" + planetSystem +
+                ", objectOre=" + objectOre +
+                ", creatures=" + creatures +
+                '}';
+    }*/
 }
 
