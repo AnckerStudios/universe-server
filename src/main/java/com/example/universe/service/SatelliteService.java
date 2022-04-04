@@ -30,7 +30,9 @@ public class SatelliteService {
         return satelliteRepo.save(satellite);
     }
     public Satellite findSatelliteById(UUID id){
-        return Satellite.toModel(satelliteRepo.findSatelliteById(id).orElseThrow(() -> new SatelliteNotFoundExeption("Satellite by id"+id+"was not found")));
+        SatelliteEntity s = satelliteRepo.findSatelliteById(id).orElseThrow(() -> new SatelliteNotFoundExeption("Satellite by id"+id+"was not found"));
+        System.out.println(s);
+        return Satellite.toModel(s);
     }
     public void deleteSatellite(UUID id){
         System.out.println("id "+id);

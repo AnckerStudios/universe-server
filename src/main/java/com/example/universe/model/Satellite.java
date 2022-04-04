@@ -14,6 +14,7 @@ public class Satellite {
     private String climate;
     private int radius;
     private PlanetSystem planetSystem;
+    private List<Satellite> satellites;
     private List<ObjectOre> objectOre;
 
     public List<Coords> getListSt() {
@@ -26,6 +27,14 @@ public class Satellite {
 
     private List<Coords> listSt;
     private List<Creature> creatures;
+
+    public List<Satellite> getSatellites() {
+        return satellites;
+    }
+
+    public void setSatellites(List<Satellite> satellites) {
+        this.satellites = satellites;
+    }
 
     public List<Creature> getCreatures() {
         return creatures;
@@ -100,6 +109,7 @@ public class Satellite {
         satellite.setDiscriminator(entity.getDiscriminator());
         satellite.setClimate(entity.getClimate());
         satellite.setRadius(entity.getRadius());
+        satellite.setSatellites(entity.getSatellites().stream().map(Satellite::toModel).collect(Collectors.toList()));
         satellite.setObjectOre(entity.getObjectOre().stream().map(ObjectOre::toModel).collect(Collectors.toList()));
         satellite.setCreatures(entity.getCreatures().stream().map(Creature::toModel).collect(Collectors.toList()));
         //satellite.setPlanetSystem(PlanetSystem.toModel(entity.getPlanetSystem()));

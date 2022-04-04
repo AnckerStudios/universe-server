@@ -25,8 +25,7 @@ public class SatelliteEntity implements Serializable {
     private String discriminator;
     @Column(name = "climate")
     private String climate;
-    @Column(name = "fk_obj_uuid")
-    private UUID fk_obj_uuid;
+
 
     @Column(name = "radius")
     private int radius;
@@ -44,6 +43,13 @@ public class SatelliteEntity implements Serializable {
     @JoinColumn(name = "fk_sys_uuid")
     private PlanetSystemEntity planetSystem;
 
+    @OneToMany(mappedBy = "satellite", fetch = FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true) //fetch = FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true
+    private List<SatelliteEntity> satellites;
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.REFRESH})//fetch = FetchType.LAZY,cascade = CascadeType.ALL
+    @JoinColumn(name = "fk_obj_uuid")
+    private SatelliteEntity satellite;
+
     @OneToMany(mappedBy = "satellite", fetch = FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ObjectOreEntity> objectOre;
 
@@ -53,12 +59,11 @@ public class SatelliteEntity implements Serializable {
             inverseJoinColumns=@JoinColumn(name="fk2_cre_uuid"))
     private List<CreatureEntity> creatures;
 
-    public SatelliteEntity(UUID id, String name, String discriminator, String climate, UUID fk_obj_uuid) {
+    public SatelliteEntity(UUID id, String name, String discriminator, String climate) {
         this.id = id;
         this.name = name;
         this.discriminator = discriminator;
         this.climate = climate;
-        this.fk_obj_uuid = fk_obj_uuid;
     }
     public List<CreatureEntity> getCreatures() {
         return creatures;
@@ -122,12 +127,20 @@ public class SatelliteEntity implements Serializable {
         this.climate = climate;
     }
 
-    public UUID getFk_obj_uuid() {
-        return fk_obj_uuid;
+    public List<SatelliteEntity> getSatellites() {
+        return satellites;
     }
 
-    public void setFk_obj_uuid(UUID fk_obj_uuid) {
-        this.fk_obj_uuid = fk_obj_uuid;
+    public void setSatellites(List<SatelliteEntity> satellites) {
+        this.satellites = satellites;
+    }
+
+    public SatelliteEntity getSatellite() {
+        return satellite;
+    }
+
+    public void setSatellite(SatelliteEntity satellite) {
+        this.satellite = satellite;
     }
 
     public static SatelliteEntity toEntity(Satellite model){
@@ -170,19 +183,19 @@ public class SatelliteEntity implements Serializable {
         return satellite;
     }
 
-   /* @Override
+    @Override
     public String toString() {
         return "SatelliteEntity{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", discriminator='" + discriminator + '\'' +
                 ", climate='" + climate + '\'' +
-                ", fk_obj_uuid=" + fk_obj_uuid +
                 ", radius=" + radius +
-                ", planetSystem=" + planetSystem +
-                ", objectOre=" + objectOre +
+                ", planetSystem=" + planetSystem.getName() +
                 ", creatures=" + creatures +
+                ", satellite=" + satellite.getName() +
+                ", satellites=" + satellites +
                 '}';
-    }*/
+    }
 }
 
