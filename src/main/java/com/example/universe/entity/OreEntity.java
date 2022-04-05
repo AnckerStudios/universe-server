@@ -4,6 +4,7 @@ import com.example.universe.model.ObjectOre;
 import com.example.universe.model.Ore;
 import com.example.universe.model.Satellite;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.ArrayList;

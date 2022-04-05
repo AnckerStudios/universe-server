@@ -1,0 +1,614 @@
+databaseChangeLog:
+- changeSet:
+    id: 1649151915426-1
+    author: Илья (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: spaceobject_pkey
+            name: obj_uuid
+            type: UUID
+        - column:
+            constraints:
+              nullable: false
+            name: discriminator
+            type: VARCHAR(128)
+        - column:
+            constraints:
+              nullable: false
+            name: obj_name
+            type: VARCHAR(128)
+        - column:
+            constraints:
+              nullable: false
+            name: climate
+            type: VARCHAR(128)
+        - column:
+            name: fk_obj_uuid
+            type: UUID
+        - column:
+            name: fk_sys_uuid
+            type: UUID
+        - column:
+            constraints:
+              nullable: false
+            defaultValueNumeric: 50
+            name: radius
+            type: INTEGER
+        tableName: spaceobject
+- changeSet:
+    id: 1649151915426-2
+    author: Илья (generated)
+    changes:
+    - loadData:
+        columns:
+        - column:
+            header: obj_uuid
+            name: obj_uuid
+            type: UUID
+        - column:
+            header: discriminator
+            name: discriminator
+            type: STRING
+        - column:
+            header: obj_name
+            name: obj_name
+            type: STRING
+        - column:
+            header: climate
+            name: climate
+            type: STRING
+        - column:
+            header: fk_obj_uuid
+            name: fk_obj_uuid
+            type: skip
+        - column:
+            header: fk_sys_uuid
+            name: fk_sys_uuid
+            type: UUID
+        - column:
+            header: radius
+            name: radius
+            type: NUMERIC
+        commentLineStartsWith: '#'
+        encoding: UTF-8
+        file: data/spaceobject.csv
+        quotchar: '"'
+        separator: ','
+        relativeToChangelogFile: true
+        tableName: spaceobject
+- changeSet:
+    id: 1649151915426-3
+    author: Илья (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: centralobject_pkey
+            name: central_uuid
+            type: UUID
+        - column:
+            constraints:
+              nullable: false
+            name: central_name
+            type: VARCHAR(128)
+        - column:
+            constraints:
+              nullable: false
+            name: fk_sys_uuid
+            type: UUID
+        tableName: centralobject
+- changeSet:
+    id: 1649151915426-4
+    author: Илья (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: fk_sys_uuid
+        constraintName: centralobject_fk_sys_uuid_key
+        tableName: centralobject
+- changeSet:
+    id: 1649151915426-5
+    author: Илья (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: creature_pkey
+            name: cre_uuid
+            type: UUID
+        - column:
+            constraints:
+              nullable: false
+            name: cre_name
+            type: VARCHAR(128)
+        - column:
+            constraints:
+              nullable: false
+            name: cre_type
+            type: VARCHAR(128)
+        tableName: creature
+- changeSet:
+    id: 1649151915426-6
+    author: Илья (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: object_creature_pkey
+            name: fk2_obj_uuid
+            type: UUID
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: object_creature_pkey
+            name: fk2_cre_uuid
+            type: UUID
+        tableName: object_creature
+- changeSet:
+    id: 1649151915426-7
+    author: Илья (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: object_ore_pkey
+            name: fk2_obj_uuid
+            type: UUID
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: object_ore_pkey
+            name: fk2_ore_uuid
+            type: UUID
+        - column:
+            constraints:
+              nullable: false
+            name: ore_value
+            type: INTEGER
+        tableName: object_ore
+- changeSet:
+    id: 1649151915426-8
+    author: Илья (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: ore_pkey
+            name: ore_uuid
+            type: UUID
+        - column:
+            constraints:
+              nullable: false
+            name: ore_name
+            type: VARCHAR(128)
+        tableName: ore
+- changeSet:
+    id: 1649151915426-9
+    author: Илья (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: planet_system_pkey
+            name: id
+            type: UUID
+        - column:
+            name: name
+            type: VARCHAR(255)
+        tableName: planet_system
+- changeSet:
+    id: 1649151915426-10
+    author: Илья (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: planetsystem_pkey
+            name: sys_uuid
+            type: UUID
+        - column:
+            constraints:
+              nullable: false
+            name: sys_name
+            type: VARCHAR(128)
+        - column:
+            name: ycoord
+            type: numeric
+        - column:
+            name: xcoord
+            type: INTEGER
+        tableName: planetsystem
+- changeSet:
+    id: 1649151915426-11
+    author: Илья (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: Role_pkey
+            name: id
+            type: UUID
+        - column:
+            constraints:
+              nullable: false
+            name: name
+            type: VARCHAR(128)
+        tableName: t_role
+- changeSet:
+    id: 1649151915426-12
+    author: Илья (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: User_pkey
+            name: id
+            type: UUID
+        - column:
+            constraints:
+              nullable: false
+            name: username
+            type: VARCHAR(128)
+        - column:
+            constraints:
+              nullable: false
+            name: password
+            type: VARCHAR(128)
+        tableName: t_user
+- changeSet:
+    id: 1649151915426-13
+    author: Илья (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: user_role_pkey
+            name: fk_user_id
+            type: UUID
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: user_role_pkey
+            name: fk_role_id
+            type: UUID
+        tableName: user_role
+- changeSet:
+    id: 1649151915426-14
+    author: Илья (generated)
+    changes:
+    - loadData:
+        columns:
+        - column:
+            header: cre_uuid
+            name: cre_uuid
+            type: UUID
+        - column:
+            header: cre_name
+            name: cre_name
+            type: STRING
+        - column:
+            header: cre_type
+            name: cre_type
+            type: STRING
+        commentLineStartsWith: '#'
+        encoding: UTF-8
+        file: data/creature.csv
+        quotchar: '"'
+        separator: ','
+        relativeToChangelogFile: true
+        tableName: creature
+- changeSet:
+    id: 1649151915426-15
+    author: Илья (generated)
+    changes:
+    - loadData:
+        columns:
+        - column:
+            header: fk2_obj_uuid
+            name: fk2_obj_uuid
+            type: UUID
+        - column:
+            header: fk2_ore_uuid
+            name: fk2_ore_uuid
+            type: UUID
+        - column:
+            header: ore_value
+            name: ore_value
+            type: NUMERIC
+        commentLineStartsWith: '#'
+        encoding: UTF-8
+        file: data/object_ore.csv
+        quotchar: '"'
+        separator: ','
+        relativeToChangelogFile: true
+        tableName: object_ore
+- changeSet:
+    id: 1649151915426-16
+    author: Илья (generated)
+    changes:
+    - loadData:
+        columns:
+        - column:
+            header: ore_uuid
+            name: ore_uuid
+            type: UUID
+        - column:
+            header: ore_name
+            name: ore_name
+            type: STRING
+        commentLineStartsWith: '#'
+        encoding: UTF-8
+        file: data/ore.csv
+        quotchar: '"'
+        separator: ','
+        relativeToChangelogFile: true
+        tableName: ore
+- changeSet:
+    id: 1649151915426-17
+    author: Илья (generated)
+    changes:
+    - loadData:
+        columns:
+        - column:
+            header: sys_uuid
+            name: sys_uuid
+            type: UUID
+        - column:
+            header: sys_name
+            name: sys_name
+            type: STRING
+        - column:
+            header: ycoord
+            name: ycoord
+            type: NUMERIC
+        - column:
+            header: xcoord
+            name: xcoord
+            type: NUMERIC
+        commentLineStartsWith: '#'
+        encoding: UTF-8
+        file: data/planetsystem.csv
+        quotchar: '"'
+        separator: ','
+        relativeToChangelogFile: true
+        tableName: planetsystem
+- changeSet:
+    id: 1649151915426-18
+    author: Илья (generated)
+    changes:
+    - loadData:
+        columns:
+        - column:
+            header: id
+            name: id
+            type: UUID
+        - column:
+            header: name
+            name: name
+            type: STRING
+        commentLineStartsWith: '#'
+        encoding: UTF-8
+        file: data/t_role.csv
+        quotchar: '"'
+        separator: ','
+        relativeToChangelogFile: true
+        tableName: t_role
+- changeSet:
+    id: 1649151915426-19
+    author: Илья (generated)
+    changes:
+    - loadData:
+        columns:
+        - column:
+            header: id
+            name: id
+            type: UUID
+        - column:
+            header: username
+            name: username
+            type: STRING
+        - column:
+            header: password
+            name: password
+            type: STRING
+        commentLineStartsWith: '#'
+        encoding: UTF-8
+        file: data/t_user.csv
+        quotchar: '"'
+        separator: ','
+        relativeToChangelogFile: true
+        tableName: t_user
+- changeSet:
+    id: 1649151915426-20
+    author: Илья (generated)
+    changes:
+    - loadData:
+        columns:
+        - column:
+            header: fk_user_id
+            name: fk_user_id
+            type: UUID
+        - column:
+            header: fk_role_id
+            name: fk_role_id
+            type: UUID
+        commentLineStartsWith: '#'
+        encoding: UTF-8
+        file: data/user_role.csv
+        quotchar: '"'
+        separator: ','
+        relativeToChangelogFile: true
+        tableName: user_role
+- changeSet:
+    id: 1649151915426-21
+    author: Илья (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: fk_sys_uuid
+        baseTableName: centralobject
+        constraintName: centralobject_fk_sys_uuid_fkey
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: sys_uuid
+        referencedTableName: planetsystem
+        validate: true
+- changeSet:
+    id: 1649151915426-22
+    author: Илья (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: fk2_cre_uuid
+        baseTableName: object_creature
+        constraintName: object_creature_cre_uuid_fkey
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: cre_uuid
+        referencedTableName: creature
+        validate: true
+- changeSet:
+    id: 1649151915426-23
+    author: Илья (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: fk2_obj_uuid
+        baseTableName: object_creature
+        constraintName: object_creature_obj_uuid_fkey
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: obj_uuid
+        referencedTableName: spaceobject
+        validate: true
+- changeSet:
+    id: 1649151915426-24
+    author: Илья (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: fk2_obj_uuid
+        baseTableName: object_ore
+        constraintName: object_ore_obj_uuid_fkey
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: obj_uuid
+        referencedTableName: spaceobject
+        validate: true
+- changeSet:
+    id: 1649151915426-25
+    author: Илья (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: fk2_ore_uuid
+        baseTableName: object_ore
+        constraintName: object_ore_ore_uuid_fkey
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: ore_uuid
+        referencedTableName: ore
+        validate: true
+- changeSet:
+    id: 1649151915426-26
+    author: Илья (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: fk_obj_uuid
+        baseTableName: spaceobject
+        constraintName: spaceobject_fk_obj_uuid_fkey
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: obj_uuid
+        referencedTableName: spaceobject
+        validate: true
+- changeSet:
+    id: 1649151915426-27
+    author: Илья (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: fk_sys_uuid
+        baseTableName: spaceobject
+        constraintName: spaceobject_fk_sys_uuid_fkey
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: sys_uuid
+        referencedTableName: planetsystem
+        validate: true
+- changeSet:
+    id: 1649151915426-28
+    author: Илья (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: fk_role_id
+        baseTableName: user_role
+        constraintName: user_role_fk_role_id_fkey
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: t_role
+        validate: true
+- changeSet:
+    id: 1649151915426-29
+    author: Илья (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: fk_user_id
+        baseTableName: user_role
+        constraintName: user_role_fk_user_id_fkey
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: t_user
+        validate: true
+

@@ -34,6 +34,12 @@ public class SatelliteController {
         Satellite satellite = satelliteService.findSatelliteById(UUID.fromString(id));
         return new ResponseEntity<>(satellite,HttpStatus.OK);
     }
+    @GetMapping("/findByName/{name}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<List<Satellite>> getSatelliteByName(@PathVariable("name")String name){
+        List<Satellite> satellites = satelliteService.findSatelliteByName(name);
+        return new ResponseEntity<>(satellites,HttpStatus.OK);
+    }
     @PostMapping("/add")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<SatelliteEntity> addSatellite(@RequestBody Satellite satellite){

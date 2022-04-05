@@ -6,6 +6,7 @@ import com.example.universe.model.Satellite;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -183,7 +184,7 @@ public class SatelliteEntity implements Serializable {
         return satellite;
     }
 
-    @Override
+   /* @Override
     public String toString() {
         return "SatelliteEntity{" +
                 "id=" + id +
@@ -196,6 +197,6 @@ public class SatelliteEntity implements Serializable {
                 ", satellite=" + satellite.getName() +
                 ", satellites=" + satellites +
                 '}';
-    }
+    }*/
 }
 

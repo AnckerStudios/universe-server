@@ -2,6 +2,7 @@ package com.example.universe.controller;
 
 import com.example.universe.entity.PlanetSystemEntity;
 //import com.example.universe.entity.User;
+import com.example.universe.entity.SatelliteEntity;
 import com.example.universe.model.Coords;
 import com.example.universe.model.PlanetSystem;
 import com.example.universe.model.UserModel;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/universe")
@@ -37,11 +39,11 @@ public class PlanetSystemController {
         return new ResponseEntity<>(planetSystem,HttpStatus.OK);
     }
     @GetMapping("/findByName/{name}")
-    public ResponseEntity<PlanetSystemEntity> getPlanetSystemByName(@PathVariable("name")String name){
+    public ResponseEntity<List<PlanetSystemEntity>> getPlanetSystemByName(@PathVariable("name")String name){
         //System.out.println(name);
         //System.out.println(UUID.fromString(name));
-        PlanetSystemEntity planetSystem = planetSystemService.findPlanetSystemByName(name);
-        return new ResponseEntity<>(planetSystem,HttpStatus.OK);
+        List<PlanetSystemEntity> planetSystems = planetSystemService.findPlanetSystemByName(name);
+        return new ResponseEntity<>(planetSystems,HttpStatus.OK);
     }
     @PostMapping("/findByCoords")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
@@ -58,10 +60,15 @@ public class PlanetSystemController {
     }
     @PostMapping("/update")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<PlanetSystemEntity> updatePlanetSystem(@RequestBody PlanetSystem planetSystem){
-        PlanetSystemEntity updatePlanetSystem = planetSystemService.updatePlanetSystem(PlanetSystemEntity.toEntity(planetSystem));
-        return new ResponseEntity<>(updatePlanetSystem,HttpStatus.OK);
+    public void updatePlanetSystem(@RequestBody PlanetSystem planetSystem){
+        System.out.println("upd = "+ planetSystem.getName()+ " " + planetSystem.getId()+ " "+ planetSystem.getSatellites());
+        //PlanetSystemEntity e = PlanetSystemEntity.toEntityLow(planetSystem);
+        //e.setSatellites(planetSystem.getSatellites().stream().map(SatelliteEntity::toEntityLow).collect(Collectors.toList()));
+        //System.out.println("upd e = "+ e.getName()+ " " + e.getId()+ " "+ e.getSatellites());
+        //PlanetSystemEntity updatePlanetSystem = planetSystemService.updatePlanetSystem(e);
+        planetSystemService.updatePS(planetSystem);
     }
+
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public void deletePlanetSystem(@PathVariable("id")UUID id){

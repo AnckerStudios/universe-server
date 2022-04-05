@@ -34,6 +34,11 @@ public class SatelliteService {
         System.out.println(s);
         return Satellite.toModel(s);
     }
+    public List<Satellite> findSatelliteByName(String name){
+        List<SatelliteEntity> s = satelliteRepo.findSatelliteByName(name);
+        System.out.println(s);
+        return s.stream().map(Satellite::toModel).collect(Collectors.toList());
+    }
     public void deleteSatellite(UUID id){
         System.out.println("id "+id);
         satelliteRepo.deleteById(id);
