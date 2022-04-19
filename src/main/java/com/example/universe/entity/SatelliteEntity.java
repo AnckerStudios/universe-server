@@ -24,8 +24,11 @@ public class SatelliteEntity implements Serializable {
     private String name;
     @Column(name = "discriminator")
     private String discriminator;
-    @Column(name = "climate")
-    private String climate;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "climate")
+    private ClimateEntity climate;
 
 
     @Column(name = "radius")
@@ -60,7 +63,7 @@ public class SatelliteEntity implements Serializable {
             inverseJoinColumns=@JoinColumn(name="fk2_cre_uuid"))
     private List<CreatureEntity> creatures;
 
-    public SatelliteEntity(UUID id, String name, String discriminator, String climate) {
+    public SatelliteEntity(UUID id, String name, String discriminator, ClimateEntity climate) {
         this.id = id;
         this.name = name;
         this.discriminator = discriminator;
@@ -120,11 +123,11 @@ public class SatelliteEntity implements Serializable {
         this.discriminator = discriminator;
     }
 
-    public String getClimate() {
+    public ClimateEntity getClimate() {
         return climate;
     }
 
-    public void setClimate(String climate) {
+    public void setClimate(ClimateEntity climate) {
         this.climate = climate;
     }
 
@@ -150,12 +153,14 @@ public class SatelliteEntity implements Serializable {
         satellite.setId(model.getId());
         satellite.setName(model.getName());
         satellite.setDiscriminator(model.getDiscriminator());
-        satellite.setClimate(model.getClimate());
+        satellite.setClimate(ClimateEntity.toEntity(model.getClimate()));
         satellite.setRadius(model.getRadius());
         satellite.setPlanetSystem(PlanetSystemEntity.toEntity(model.getPlanetSystem()));
         satellite.setObjectOre(model.getObjectOre().stream().map(ObjectOreEntity::toEntity).collect(Collectors.toList()));
-
+        satellite.setSatellites(model.getSatellites().stream().map(SatelliteEntity::toEntityMoon).collect(Collectors.toList()));
         satellite.setCreatures(model.getCreatures().stream().map(CreatureEntity::toEntity).collect(Collectors.toList()));
+        if(model.getSatellite() != null)
+            satellite.setSatellite(SatelliteEntity.toEntityLow(model.getSatellite()));
         return satellite;
     }
     public static SatelliteEntity toEntityHigh(Satellite model){
@@ -164,12 +169,15 @@ public class SatelliteEntity implements Serializable {
         satellite.setId(model.getId());
         satellite.setName(model.getName());
         satellite.setDiscriminator(model.getDiscriminator());
-        satellite.setClimate(model.getClimate());
+        satellite.setClimate(ClimateEntity.toEntity(model.getClimate()));
         satellite.setRadius(model.getRadius());
-        satellite.setPlanetSystem(PlanetSystemEntity.toEntityLow(model.getPlanetSystem()));
+        if(model.getPlanetSystem() != null)
+            satellite.setPlanetSystem(PlanetSystemEntity.toEntityLow(model.getPlanetSystem()));
         satellite.setObjectOre(model.getObjectOre().stream().map(ObjectOreEntity::toEntityHigh).collect(Collectors.toList()));
-
+        satellite.setSatellites(model.getSatellites().stream().map(SatelliteEntity::toEntityMoon).collect(Collectors.toList()));
         satellite.setCreatures(model.getCreatures().stream().map(CreatureEntity::toEntity).collect(Collectors.toList()));
+        if(model.getSatellite() != null)
+            satellite.setSatellite(SatelliteEntity.toEntityLow(model.getSatellite()));
         return satellite;
     }
     public static SatelliteEntity toEntityLow(Satellite model){
@@ -178,13 +186,31 @@ public class SatelliteEntity implements Serializable {
         satellite.setId(model.getId());
         satellite.setName(model.getName());
         satellite.setDiscriminator(model.getDiscriminator());
-        satellite.setClimate(model.getClimate());
+        satellite.setClimate(ClimateEntity.toEntity(model.getClimate()));
         satellite.setRadius(model.getRadius());
+        satellite.setSatellites(model.getSatellites().stream().map(SatelliteEntity::toEntityMoon).collect(Collectors.toList()));
+        if(model.getSatellite() != null)
+            satellite.setSatellite(SatelliteEntity.toEntityLow(model.getSatellite()));
         //satellite.setPlanetSystem(PlanetSystemEntity.toEntityLow(model.getPlanetSystem()));
         return satellite;
     }
 
-   /* @Override
+    public static SatelliteEntity toEntityMoon(Satellite model){
+        System.out.println("satEnt = "+ model);
+        SatelliteEntity satellite = new SatelliteEntity();
+        satellite.setId(model.getId());
+        satellite.setName(model.getName());
+        satellite.setDiscriminator(model.getDiscriminator());
+        satellite.setClimate(ClimateEntity.toEntity(model.getClimate()));
+        satellite.setRadius(model.getRadius());
+        satellite.setSatellites(model.getSatellites().stream().map(SatelliteEntity::toEntityLow).collect(Collectors.toList()));
+        if(model.getSatellite() != null)
+            satellite.setSatellite(SatelliteEntity.toEntityLow(model.getSatellite()));
+
+        return satellite;
+    }
+
+    /*@Override
     public String toString() {
         return "SatelliteEntity{" +
                 "id=" + id +
@@ -192,10 +218,10 @@ public class SatelliteEntity implements Serializable {
                 ", discriminator='" + discriminator + '\'' +
                 ", climate='" + climate + '\'' +
                 ", radius=" + radius +
-                ", planetSystem=" + planetSystem.getName() +
                 ", creatures=" + creatures +
-                ", satellite=" + satellite.getName() +
                 ", satellites=" + satellites +
+                ", ps=" + (planetSystem != null ? planetSystem : "null")+
+                ", satellite=" + (satellite != null ? satellite : "null")+
                 '}';
     }*/
 }

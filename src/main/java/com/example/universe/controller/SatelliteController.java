@@ -1,8 +1,9 @@
 package com.example.universe.controller;
 
+import com.example.universe.entity.PlanetSystemEntity;
 import com.example.universe.entity.SatelliteEntity;
-import com.example.universe.model.Coords;
-import com.example.universe.model.ObjectOre;
+import com.example.universe.exeption.SatelliteNotFoundExeption;
+import com.example.universe.DBReadSave;
 import com.example.universe.model.PlanetSystem;
 import com.example.universe.model.Satellite;
 import com.example.universe.service.SatelliteService;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,14 +32,16 @@ public class SatelliteController {
     }
     @GetMapping("/find/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<Satellite> getSatelliteById(@PathVariable("id")String id){
-        Satellite satellite = satelliteService.findSatelliteById(UUID.fromString(id));
+    public ResponseEntity<Satellite> getSatelliteById(@PathVariable("id")UUID id){
+        Satellite satellite = satelliteService.findSatelliteById(id);
         return new ResponseEntity<>(satellite,HttpStatus.OK);
     }
     @GetMapping("/findByName/{name}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<List<Satellite>> getSatelliteByName(@PathVariable("name")String name){
         List<Satellite> satellites = satelliteService.findSatelliteByName(name);
+        if(satellites.size() == 0)
+            throw new SatelliteNotFoundExeption("Satellite by name "+name+" was not found");
         return new ResponseEntity<>(satellites,HttpStatus.OK);
     }
     @PostMapping("/add")
@@ -60,7 +64,42 @@ public class SatelliteController {
         System.out.println("del "+id);
         satelliteService.deleteSatellite(id);
     }
+    @GetMapping("/save/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public void savePS(@PathVariable("id")String id){
+        Satellite satellite = satelliteService.findSatelliteById(UUID.fromString(id));
+        DBReadSave e = new DBReadSave();
+        try {
+            e.saveSat(SatelliteEntity.toEntityLow(satellite));
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        }
+    }
+    @PostMapping("/load")
+    @PreAuthorize("hasRole('ADMIN')")
+    public void readPS(@RequestBody PlanetSystem ps){
+        DBReadSave e = new DBReadSave();
+        try {
+            SatelliteEntity sat = e.readSat("planetX");
+            try {
+                Satellite oldSat = satelliteService.findSatelliteById(sat.getId());
+                boolean check = true;
+                if(check){
+                    System.out.println("замена");
+                    satelliteService.deleteSatellite(sat.getId());
+                    sat.setPlanetSystem(PlanetSystemEntity.toEntityLow(ps));
+                    SatelliteEntity newSat = satelliteService.addSatellite(sat);
+                }
+            }catch (SatelliteNotFoundExeption ex){
+                sat.setPlanetSystem(PlanetSystemEntity.toEntityLow(ps));
+                SatelliteEntity newSat = satelliteService.addSatellite(sat);
+            }
 
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        }
+
+    }
     /*@PostMapping("/updateCoord")
     public ResponseEntity<List<PlanetSystem>> getPlanetSystemByCoords(@RequestBody Coords coords){
         List<PlanetSystem> planetSystems = planetSystemService.findPlanetSystemByCoords(coords.getCoordX(), coords.getCoordY(), coords.getRange());

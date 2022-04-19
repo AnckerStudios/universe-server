@@ -52,17 +52,6 @@ public class OreController {
         OreEntity newOre = oreService.addOre(ore);//OreEntity.toEntity(ore)
         return new ResponseEntity<>(newOre, HttpStatus.CREATED);
     }
-    /*@PostMapping("/add")
-    public ResponseEntity<ObjectOreEntity> addOre(@RequestBody ObjectOre ore){
-        System.out.println("ore = "+ore.getOre().getName());
-        System.out.println("sat = "+ore.getSatellite().getId());
-        ore.getSatellite().setId(UUID.randomUUID());
-        System.out.println("sat = "+ore.getSatellite().getId());
-        System.out.println("value = "+ore.getValue());
-
-        ObjectOreEntity newOre = objectOreService.addOre(ObjectOreEntity.toEntity(ore));//OreEntity.toEntity(ore)
-        return new ResponseEntity<>(newOre, HttpStatus.CREATED);
-    }*/
     /*@PostMapping("/update")
     public ResponseEntity<OreEntity> updateOre(@RequestBody OreEntity ore){
         OreEntity updateOre = oreService.updateOre(ore);

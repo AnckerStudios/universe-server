@@ -46,12 +46,12 @@ public class ObjectOre {
         return objectOre;
     }
 
-    @Override
-    public String toString() {
-        return "ObjectOre{" +
-                "satellite=" + satellite +
-                ", ore=" + ore +
-                ", value=" + value +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "ObjectOre{" +
+//                "satellite=" + satellite +
+//                ", ore=" + ore +
+//                ", value=" + value +
+//                '}';
+//    }
 }

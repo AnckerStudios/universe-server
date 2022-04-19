@@ -2,8 +2,8 @@ package com.example.universe.service;
 
 import com.example.universe.exeption.SatelliteNotFoundExeption;
 import com.example.universe.entity.SatelliteEntity;
-import com.example.universe.model.PlanetSystem;
 import com.example.universe.model.Satellite;
+import com.example.universe.repo.ObjectOreRepo;
 import com.example.universe.repo.SatelliteRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,12 +15,16 @@ import java.util.stream.Collectors;
 @Service
 public class SatelliteService {
     private final SatelliteRepo satelliteRepo;
+    private final ObjectOreRepo oreRepo;
     @Autowired
-    public SatelliteService(SatelliteRepo satelliteRepo){
+    public SatelliteService(SatelliteRepo satelliteRepo, ObjectOreRepo oreRepo){
         this.satelliteRepo = satelliteRepo;
+        this.oreRepo = oreRepo;
     }
     public SatelliteEntity addSatellite(SatelliteEntity satellite){
         //satellite.setId(UUID.randomUUID());
+        //for(SatelliteEntity s : satellite.getSatellites())
+        //    s.setSatellite(satellite);
         return satelliteRepo.save(satellite);
     }
     public List<Satellite> findAllSatellite(){
@@ -30,7 +34,7 @@ public class SatelliteService {
         return satelliteRepo.save(satellite);
     }
     public Satellite findSatelliteById(UUID id){
-        SatelliteEntity s = satelliteRepo.findSatelliteById(id).orElseThrow(() -> new SatelliteNotFoundExeption("Satellite by id"+id+"was not found"));
+        SatelliteEntity s = satelliteRepo.findSatelliteById(id).orElseThrow(() -> new SatelliteNotFoundExeption("Satellite by id "+id+"was not found"));
         System.out.println(s);
         return Satellite.toModel(s);
     }
@@ -40,7 +44,8 @@ public class SatelliteService {
         return s.stream().map(Satellite::toModel).collect(Collectors.toList());
     }
     public void deleteSatellite(UUID id){
-        System.out.println("id "+id);
+
+        //oreRepo.delete();
         satelliteRepo.deleteById(id);
     }
 

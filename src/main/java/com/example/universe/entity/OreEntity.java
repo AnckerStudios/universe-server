@@ -35,7 +35,7 @@ public class OreEntity {
         this.objectOre = objectOre;
     }
 
-    @OneToMany(mappedBy = "ore", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true) //cascade = CascadeType.ALL cascade = {CascadeType.PERSIST, CascadeType.REFRESH}
+    @OneToMany(mappedBy = "ore", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true) //cascade = CascadeType.ALL cascade = {CascadeType.PERSIST, CascadeType.REFRESH}
     private List<ObjectOreEntity> objectOre;
 
     public OreEntity(Ore ore, ObjectOre objectOre) {

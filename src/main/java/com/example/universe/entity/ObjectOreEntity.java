@@ -58,14 +58,14 @@ public class ObjectOreEntity {
 
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
+    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     @MapsId("objectId")
     @JoinColumn(name = "fk2_obj_uuid")
     private SatelliteEntity satellite;
 
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
+    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     @MapsId("oreId")
     @JoinColumn(name = "fk2_ore_uuid")
     private OreEntity ore;

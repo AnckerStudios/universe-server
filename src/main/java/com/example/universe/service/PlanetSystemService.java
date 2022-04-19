@@ -48,7 +48,7 @@ public class PlanetSystemService {
         return planetSystemRepo.updatePS(planetSystem.getId(), planetSystem.getXCoord(), planetSystem.getYCoord());
     }
     public PlanetSystemEntity findPlanetSystemById(UUID id){
-        return planetSystemRepo.findPlanetSystemById(id).orElseThrow(() -> new PlanetSystemNotFoundExeption("PlanetSystem by id"+id+"was not found"));
+        return planetSystemRepo.findPlanetSystemById(id).orElseThrow(() -> new PlanetSystemNotFoundExeption("PlanetSystem by id "+id+" was not found"));
     }
 
 

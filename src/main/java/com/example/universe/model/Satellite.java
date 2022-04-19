@@ -11,9 +11,10 @@ public class Satellite {
     private String id;
     private String name;
     private String discriminator;
-    private String climate;
+    private Climate climate;
     private int radius;
     private PlanetSystem planetSystem;
+    private Satellite satellite;
     private List<Satellite> satellites;
     private List<ObjectOre> objectOre;
 
@@ -27,6 +28,14 @@ public class Satellite {
 
     private List<Coords> listSt;
     private List<Creature> creatures;
+
+    public Satellite getSatellite() {
+        return satellite;
+    }
+
+    public void setSatellite(Satellite satellite) {
+        this.satellite = satellite;
+    }
 
     public List<Satellite> getSatellites() {
         return satellites;
@@ -76,11 +85,11 @@ public class Satellite {
         this.discriminator = discriminator;
     }
 
-    public String getClimate() {
+    public Climate getClimate() {
         return climate;
     }
 
-    public void setClimate(String climate) {
+    public void setClimate(Climate climate) {
         this.climate = climate;
     }
 
@@ -107,7 +116,7 @@ public class Satellite {
         satellite.setId(entity.getId());
         satellite.setName(entity.getName());
         satellite.setDiscriminator(entity.getDiscriminator());
-        satellite.setClimate(entity.getClimate());
+        satellite.setClimate(Climate.toModel(entity.getClimate()));
         satellite.setRadius(entity.getRadius());
         satellite.setSatellites(entity.getSatellites().stream().map(Satellite::toModel).collect(Collectors.toList()));
         satellite.setObjectOre(entity.getObjectOre().stream().map(ObjectOre::toModel).collect(Collectors.toList()));
@@ -120,22 +129,25 @@ public class Satellite {
         satellite.setId(entity.getId());
         satellite.setName(entity.getName());
         satellite.setDiscriminator(entity.getDiscriminator());
-        satellite.setClimate(entity.getClimate());
+        satellite.setClimate(Climate.toModel(entity.getClimate()));
         satellite.setRadius(entity.getRadius());
         //satellite.setPlanetSystem(PlanetSystem.toModel(entity.getPlanetSystem()));
         return satellite;
     }
-    @Override
-    public String toString() {
-        return "Satellite{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", discriminator='" + discriminator + '\'' +
-                ", climate='" + climate + '\'' +
-                ", radius=" + radius +
-                ", planetSystem=" + planetSystem +
-                ", ores=" + objectOre +
-                ", creatures=" + creatures +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Satellite{" +
+//                "id='" + id + '\'' +
+//                ", sat len =" + satellites.size() +
+//                ", name='" + name + '\'' +
+//                ", discriminator='" + discriminator + '\'' +
+//                ", climate='" + climate + '\'' +
+//                ", radius=" + radius +
+//                ", planetSystem=" + planetSystem +
+//                ", ores=" + objectOre +
+//                ", satellites =" + satellites +
+//                ", satellite =" + satellite +
+//                ", creatures=" + creatures +
+//                '}';
+//    }
 }
