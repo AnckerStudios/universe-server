@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(кактname = "role")
+@Table(name = "role")
 public class Role implements GrantedAuthority {
     @Id
     private UUID id;

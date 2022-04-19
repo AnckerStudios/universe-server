@@ -1,6 +1,5 @@
 package com.example.universe.entity;
 
-import org.hibernate.annotations.Table;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.security.core.GrantedAuthority;
@@ -68,7 +67,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
+        return (Collection<? extends GrantedAuthority>) getRoles(); // -шляпа
     }
 
     @Override
@@ -96,4 +95,4 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 }
-}
+
