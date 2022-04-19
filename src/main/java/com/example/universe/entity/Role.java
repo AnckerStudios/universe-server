@@ -1,12 +1,12 @@
 package com.example.universe.entity;
 
-import org.hibernate.annotations.Table;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import java.util.Set;
 import java.util.UUID;
 
